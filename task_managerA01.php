@@ -6,7 +6,7 @@ if (php_sapi_name() !== "cli") {
 }
 
 
-#Funció per mostrar com podem interactuar per fer coses amb les tasques
+# Funció que mostra les instruccions de com utilitzar el programa segons el que vols fer
 function mostrarAyuda() {
  global $argv;
  echo "Ús: ".$argv[0]." --afegir o -a \"nom_tasca\"\n";
@@ -16,11 +16,11 @@ function mostrarAyuda() {
 }
 
 
-#Guarda les tasques en un arxiu txt anomenat tasques.txt
+# Inicialització de variables per emmagatzemar les tasques i el nom de l'arxiu de tasques.
 $tareas = [];
 $arxiuTasques = "tasques.txt";
 
-
+# Funció per carregar les tasques des de l'arxiu de tasques.
 function carregarTasques() {
  global $tareas, $arxiuTasques;
  if (file_exists($arxiuTasques)) {
@@ -29,14 +29,14 @@ function carregarTasques() {
  }
 }
 
-
+# Funció per desar les tasques a l'arxiu de tasques.
 function desarTasques() {
  global $tareas, $arxiuTasques;
  $fileContent = implode("\n", $tareas);
  file_put_contents($arxiuTasques, $fileContent);
 }
 
-
+# Funció per afegir una nova tasca.
 function afegirTasca($tasca) {
  global $tareas;
  $id = count($tareas);
@@ -44,7 +44,7 @@ function afegirTasca($tasca) {
  echo "Tasca afegida: $tasca\n";
 }
 
-
+# Funció per llistar totes les tasques.
 function llistarTasques() {
  global $tareas;
  if (empty($tareas)) {
@@ -57,7 +57,7 @@ function llistarTasques() {
  }
 }
 
-
+# Funció per marcar una tasca com a completada.
 function completarTasca($id) {
  global $tareas;
  foreach ($tareas as &$tasca) {
@@ -70,7 +70,7 @@ function completarTasca($id) {
  echo "No s'ha trobat la tasca amb aquest ID.\n";
 }
 
-
+# Funció per eliminar una tasca.
 function eliminarTasca($id) {
  global $tareas;
  $tasquesActualitzades = [];
@@ -90,7 +90,7 @@ function eliminarTasca($id) {
  }
 }
 
-
+# Analitza els arguments de la línia de comandes i executa les funcions corresponents.
 $options = getopt("a:l:c:e:", [
   "afegir:",
   "llistar",
@@ -98,10 +98,11 @@ $options = getopt("a:l:c:e:", [
   "eliminar:"
 ]);
 
-
+# Verifica si s'han proporcionat opcions i mostra ajuda si no.
 if (count($options) == 0) {
  mostrarAyuda();
 } else {
+# Itera sobre les opcions i executa les funcions corresponents.
  foreach ($options as $key => $value) {
      switch ($key) {
          case "a":
